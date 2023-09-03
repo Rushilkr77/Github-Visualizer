@@ -140,16 +140,17 @@ def getTrends(username):
     soup = BeautifulSoup(html, "html.parser")
 
     non_commit_trends =  []
-    commit_activity = soup.find_all("rect", class_="ContributionCalendar-day")
+    commit_activity = soup.find_all("td", class_="ContributionCalendar-day")
     for activity in commit_activity:
         # check those tags if they have data-date in them else ignore
-        if "data-date" in str(activity) and "data-count" in str(activity):
+        if "data-date" in str(activity) :
+        # and "data-count" in str(activity):
             # get the date
             date = activity["data-date"]
             # get the number of commits
-            if activity["data-count"] != "0":
+            if activity.contents[0].contents[0][0:2] != "No":
                 # add to the dictionary
-                non_commit_trends.append({"date": date, "activity": int(activity["data-count"])})
+                non_commit_trends.append({"date": date, "activity": int(activity.contents[0].contents[0][0:2])})
     return non_commit_trends
 
 def getNonWorkTrends(username):
@@ -158,14 +159,14 @@ def getNonWorkTrends(username):
     soup = BeautifulSoup(html, "html.parser")
 
     non_commit_trends =  []
-    commit_activity = soup.find_all("rect", class_="ContributionCalendar-day")
+    commit_activity = soup.find_all("td", class_="ContributionCalendar-day")
     for activity in commit_activity:
         # check those tags if they have data-date in them else ignore
-        if "data-date" in str(activity) and "data-count" in str(activity):
+        if "data-date" in str(activity):
             # get the date
             date = activity["data-date"]
             # get the number of commits
-            if activity["data-count"] == "0":
+            if activity["data-level"] == "0":
                 # add to the dictionary
                 non_commit_trends.append(date)
     return non_commit_trends

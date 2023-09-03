@@ -19,18 +19,21 @@ def user(username):
 
     try:
         data = getData(username)
+        # print(data)
         trends = getTrends(username)
+        # print(trends)
         streak = getLongestStreakContributions(username)
-        # gap = getLazyGap(username)
-        # months = monthDistribution(username)
-        # current_months=monthDistributionCurrentYear(username)
+        # print(streak)
+        gap = getLazyGap(username)
+        months = monthDistribution(username)
+        current_months=monthDistributionCurrentYear(username)
         # fav_day= fave_day(username)
         # bestday= best_day(username)
         # stats = scrapy_scrapy(username)
         # stats2 = scrapy_scrapy2(username)
 
 
-        return jsonify(data,trends,streak)
+        return jsonify(data, trends, streak, gap, months, current_months)   
     except:
         return {"message": "username not found"}
     
